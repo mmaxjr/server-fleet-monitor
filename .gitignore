@@ -1,0 +1,7 @@
+inventory.yaml
+vendor/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+docs/superpowers/
