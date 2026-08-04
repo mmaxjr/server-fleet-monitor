@@ -1,5 +1,8 @@
 # Server Fleet Monitor
 
+<img width="1094" height="592" alt="image" src="https://github.com/user-attachments/assets/443f4074-d78c-41ea-aad4-0e76e352a7cf" />
+
+
 Dashboard de terminal para acompanhar vários servidores Debian por SSH. A coleta usa `psutil` remotamente quando disponível e troca automaticamente para `/proc`, `df`, `systemctl` e `ss` quando o pacote não está instalado.
 
 O MVP é somente leitura: ele não instala pacotes, reinicia serviços nem modifica os servidores.
