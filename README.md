@@ -106,9 +106,14 @@ python3 -m compileall fleet_monitor
 
 Os testes usam executores falsos e não precisam de servidores SSH reais.
 
+## Roadmap
+
+O planejamento publico esta em [docs/ROADMAP.md](docs/ROADMAP.md). As primeiras
+evolucoes previstas sao autenticacao por chave SSH, exportacao JSON/CSV e alertas
+externos para estados criticos.
+
 ## Limitações do MVP
 
 - O fallback depende de `python3`, `/proc` e ferramentas usuais do Debian.
 - Senhas ficam no inventário; uma evolução recomendada é suporte a chaves SSH e cofre de segredos.
 - Não há banco de dados, gráficos históricos ou alertas externos.
-
