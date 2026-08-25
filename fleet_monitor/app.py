@@ -11,6 +11,7 @@ from rich.markup import escape
 from textual.app import App, ComposeResult
 from textual.widgets import DataTable, Footer, Header, Input, Static
 
+from .export import export_csv, export_json
 from .models import Inventory, Metrics, ServerSnapshot, ServerStatus
 from .inventory import load_inventory
 from .service import FleetService
@@ -154,7 +155,29 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         help="caminho para o inventário YAML",
     )
+    parser.add_argument(
+        "--export",
+        choices=("json", "csv"),
+        help="coleta uma vez, exporta o snapshot no formato indicado e sai (sem abrir o dashboard)",
+    )
+    parser.add_argument(
+        "--export-path",
+        type=Path,
+        help="arquivo de destino da exportação (padrão: snapshot.<formato>)",
+    )
     return parser.parse_args(argv)
+
+
+def run_export(inventory: Inventory, export_format: str, export_path: Path | None) -> int:
+    service = FleetService(inventory.settings)
+    snapshots = asyncio.run(service.refresh(inventory.servers))
+    path = export_path or Path(f"snapshot.{export_format}")
+    if export_format == "json":
+        export_json(snapshots, path)
+    else:
+        export_csv(snapshots, path)
+    print(f"Snapshot exportado para {path}")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -164,6 +187,8 @@ def main(argv: list[str] | None = None) -> int:
     except Exception as exc:
         print(f"Erro ao carregar inventário: {exc}", file=sys.stderr)
         return 2
+    if args.export:
+        return run_export(inventory, args.export, args.export_path)
     FleetMonitorApp(inventory).run()
     return 0
 

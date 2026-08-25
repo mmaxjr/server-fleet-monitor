@@ -96,6 +96,17 @@ Atalhos:
 - `Enter`: abrir os detalhes da linha.
 - `q`: sair.
 
+## Exportar um snapshot
+
+Para coletar uma vez e exportar o resultado sem abrir o dashboard:
+
+```bash
+fleet-monitor --inventory inventory.yaml --export json
+fleet-monitor --inventory inventory.yaml --export csv --export-path /tmp/snapshot.csv
+```
+
+Sem `--export-path`, o arquivo é gravado como `snapshot.json` ou `snapshot.csv` no diretório atual.
+
 ## Testes
 
 ```bash
